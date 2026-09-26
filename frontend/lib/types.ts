@@ -3,7 +3,7 @@ export type Car = {
   registrationYear: number; kilometers: number; ownershipCount: number; fuelType: string;
   transmission: string; bodyType: string; price: number; cityId: string; city: string;
   state: string; description: string; status: string;
-  isFeatured: boolean; primaryImageUrl?: string | null; images?: { imageType: string; url: string; sortOrder: number }[];
+  isFeatured: boolean; primaryImageUrl?: string | null; images?: { imageType: string; url: string; sortOrder: number; sourceUrl?: string | null; attribution?: string | null }[];
 };
 export type City = { id: string; name: string; state: string; latitude: number; longitude: number };
 export type Center = { id: string; name: string; address: string; kind: string; latitude: number; longitude: number };
