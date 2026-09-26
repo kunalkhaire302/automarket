@@ -5,3 +5,73 @@
 @media(max-width:760px){.site-header{height:74px;gap:12px}.wordmark{font-size:21px}.account-link span,.account-link>svg:last-child{display:none}.menu-toggle{display:block;border:0;background:none;margin-left:auto;padding:5px}.site-header nav{display:none;position:absolute;top:73px;left:0;right:0;background:var(--paper);z-index:20;padding:25px 5%;border-bottom:1px solid var(--line)}.site-header nav.open{display:flex;flex-direction:column}.hero{grid-template-columns:1fr;padding-top:35px;gap:30px}.hero-copy{padding:0}.hero-art{min-height:310px;border-radius:80px 12px 12px 12px}.hero-copy>p{font-size:14px}.hero h1{font-size:48px;letter-spacing:-2px}.hero-search{max-width:none}.road-car{top:210px;left:47%}.art-label{bottom:20px}.promise-strip{flex-direction:column;gap:16px;padding:22px 0}.section{padding-top:45px;padding-bottom:45px}.section-heading{align-items:start}.section-heading .text-link{white-space:nowrap;font-size:11px;margin-top:20px}.section-heading h2{font-size:28px}.car-grid{grid-template-columns:1fr}.sell-banner{padding:30px;display:block}.sell-banner h2{font-size:32px}.sell-art{display:none}.how{grid-template-columns:1fr;gap:30px}.how ol{margin:0}.faq h2{font-size:28px}footer{grid-template-columns:1fr}.footer-links{justify-content:flex-start;flex-wrap:wrap}.browse-layout{grid-template-columns:1fr}.filters{display:none}.filters.open{display:block}.filter-toggle{display:inline-flex}.browse-layout .car-grid{grid-template-columns:1fr}.search-row{flex-wrap:wrap}.search-row input{width:65%}.search-row select{max-width:100%;flex:1}.suggestions{right:0;top:53px}.page-heading h1{font-size:36px}.detail-layout{grid-template-columns:1fr}.details-specs{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.auth-wrap{margin:35px 5%;max-width:none;padding:26px}.panel{padding:21px}.record{flex-direction:column;gap:10px}.skeleton-grid{grid-template-columns:1fr}.skeleton-grid span:not(:first-child){display:none}.container{padding-bottom:40px}.desktop{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}}
 .car-visual img{width:100%;height:100%;object-fit:cover}.detail-image{overflow:hidden}.demo-gallery{display:grid;grid-template-columns:repeat(3,1fr);width:100%;min-height:330px}.demo-gallery img{width:100%;height:165px;object-fit:cover;border:1px solid #fff}
+
+/* Tablet layout: collapse navigation and dense desktop grids before they become cramped. */
+@media(max-width:960px){
+  .site-header{height:78px;position:relative;gap:16px}
+  .menu-toggle{display:grid;place-items:center;min-width:44px;min-height:44px;border:0;background:transparent;margin-left:auto;padding:8px}
+  .site-header nav{display:none;position:absolute;top:77px;left:0;right:0;background:var(--paper);z-index:20;padding:24px 5%;border-bottom:1px solid var(--line);box-shadow:0 12px 24px #1c29220f}
+  .site-header nav.open{display:flex;flex-direction:column;gap:18px}
+  .site-header nav a{padding:4px 0}
+  .hero{grid-template-columns:1fr;padding-top:44px;gap:34px}
+  .hero-copy{max-width:700px;padding:0}
+  .hero-art{min-height:360px}
+  .car-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sell-banner{margin-left:5%;margin-right:5%;padding:38px 40px}
+  .sell-art{max-width:38%}
+  .how{grid-template-columns:1fr;gap:32px}
+  .browse-layout{grid-template-columns:1fr}
+  .filters{display:none}
+  .filters.open{display:block}
+  .filter-toggle{display:inline-flex;min-height:44px;align-items:center}
+  .browse-layout .car-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .detail-layout{grid-template-columns:1fr}
+  .detail-layout>aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+  .detail-layout>aside .panel{margin-bottom:0}
+  .skeleton-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Small phones: preserve readable spacing and full-size touch targets. */
+@media(max-width:520px){
+  body{overflow-x:hidden}
+  .site-header,.container,.section,.hero{padding-left:18px;padding-right:18px}
+  .wordmark{font-size:19px}
+  .brand-mark{width:32px;height:32px;margin-right:8px;font-size:21px}
+  .hero{padding-top:30px;padding-bottom:38px}
+  .hero h1{font-size:clamp(38px,12vw,46px);letter-spacing:-2px}
+  .hero-copy>p{margin-top:18px}
+  .hero-search{padding-left:14px;margin-top:24px}
+  .popular{flex-wrap:wrap}
+  .popular>span{width:100%}
+  .hero-art{min-height:275px;border-radius:64px 10px 10px 10px}
+  .section-heading{flex-direction:column;align-items:flex-start;gap:12px}
+  .section-heading .text-link{margin-top:0}
+  .sell-banner{margin-left:18px;margin-right:18px;padding:26px 22px}
+  .sell-banner h2{font-size:29px}
+  .page-heading{padding-top:30px}
+  .page-heading h1{font-size:34px;letter-spacing:-1.5px}
+  .panel{padding:18px}
+  .panel h2{font-size:23px}
+  .button{min-height:44px;padding:11px 16px}
+  .search-row .button{width:48px;padding:0}
+  .results-meta{align-items:center;gap:12px}
+  .card-bottom,.spec-line{gap:12px}
+  .card-bottom{align-items:flex-end}
+  .card-bottom span{text-align:right}
+  .card-actions button,.text-button{min-height:44px}
+  .form-actions{gap:10px}
+  .form-actions .button{flex:1}
+  .pagination{gap:10px}
+  .pagination .button{padding-left:13px;padding-right:13px}
+  .detail-layout>aside{display:block}
+  .detail-layout>aside .panel{margin-bottom:22px}
+  .details-specs{gap:16px 12px}
+  .details-specs dd,.record,.notice{overflow-wrap:anywhere}
+  .demo-gallery{grid-template-columns:repeat(2,1fr);min-height:0}
+  .demo-gallery img{height:130px}
+  .demo-gallery img:first-child{grid-column:1/-1;height:210px}
+  .tabs{gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .tabs a,.tabs button{white-space:nowrap;min-height:44px}
+  footer{padding-left:18px;padding-right:18px}
+  .footer-links{gap:20px}
+}
