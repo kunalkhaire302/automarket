@@ -1,4 +1,5 @@
 using AutoMarket.Application;
+using AutoMarket.Api.Services;
 using AutoMarket.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutoMarket.Api.Controllers;
 
 [Authorize, Route("api/v1")]
-public sealed class WorkflowController(WorkflowService service, IStore store) : BaseController
+public sealed class WorkflowController(WorkflowService service, IStore store, SupabaseStorageClient storage) : BaseController
 {
     private static readonly string[] NotificationCategories = ["APPOINTMENTS", "BOOKINGS", "PRICE_DROPS", "MESSAGES", "SELLER", "REWARDS", "MARKETING"];
     [HttpPost("appointments")]
@@ -23,6 +24,19 @@ public sealed class WorkflowController(WorkflowService service, IStore store) : 
     public async Task<object> CancelBooking(Guid id, CancellationToken ct) => Envelope(await service.ChangeBooking(Actor, false, id, "CANCELLED", ct));
     [HttpPost("seller/submissions")]
     public async Task<IActionResult> Submission(CarRequest r, CancellationToken ct) => StatusCode(201, Envelope(await service.CreateSubmission(Actor, r, ct)));
+    [HttpPost("seller/submissions/{id:guid}/images"), RequestSizeLimit(7 * 1024 * 1024)]
+    public async Task<IActionResult> UploadImage(Guid id, IFormFile? file, CancellationToken ct)
+    {
+        Rules.Require(file is not null, "Choose an image to upload.");
+        var submission = await store.First(store.Query<SellerSubmission>().Where(x => x.Id == id && x.SellerId == Actor), ct)
+            ?? throw new BusinessException("NOT_FOUND", "Submission not found.", 404);
+        Rules.Require(submission.Status == "DRAFT", "Images can only be changed before submission.", "SUBMISSION_LOCKED", 409);
+        var stored = await storage.UploadCarImage(submission.CarId, file!, ct);
+        var sortOrder = await store.Count(store.Query<CarImage>().Where(x => x.CarId == submission.CarId), ct);
+        store.Add(new CarImage { CarId = submission.CarId, StorageKey = stored.StorageKey, PublicUrl = stored.PublicUrl, ImageType = "EXTERIOR", SortOrder = sortOrder });
+        await store.Save(ct);
+        return StatusCode(201, Envelope(new { url = stored.PublicUrl, sortOrder }));
+    }
     [HttpGet("seller/submissions")]
     public async Task<object> Submissions(CancellationToken ct) => Envelope((await store.List(store.Query<SellerSubmission>().Where(x => x.SellerId == Actor).OrderByDescending(x => x.CreatedAt).Take(100), ct)).Select(WorkflowService.Map));
     [HttpPost("seller/submissions/{id:guid}/submit")]

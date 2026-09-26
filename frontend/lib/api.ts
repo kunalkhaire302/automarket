@@ -3,8 +3,10 @@ export class ApiError extends Error {
   constructor(message: string, public status: number, public code: string) { super(message); }
 }
 export async function api<T>(path: string, init?: RequestInit): Promise<Envelope<T>> {
+  const headers = new Headers(init?.headers);
+  if (!(init?.body instanceof FormData) && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
   const response = await fetch(`/api/backend/${path}`, {
-    ...init, headers: { "Content-Type": "application/json", ...init?.headers },
+    ...init, headers,
     cache: "no-store", signal: init?.signal ?? AbortSignal.timeout(15000)
   });
   const data = await response.json() as Envelope<T>;

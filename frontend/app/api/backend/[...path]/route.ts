@@ -12,20 +12,21 @@ async function handle(request: NextRequest, context: Context) {
     return NextResponse.json({ success: false, error: { code: "CSRF_REJECTED", message: "Reload the page and try again." } }, { status: 403 });
   const jar = await cookies();
   const route = path.join("/");
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const multipart = request.headers.get("content-type")?.startsWith("multipart/form-data") ?? false;
+  const headers: Record<string, string> = multipart ? { "Content-Type": request.headers.get("content-type")! } : { "Content-Type": "application/json" };
   const access = jar.get("am_access")?.value;
   if (access) headers.Authorization = `Bearer ${access}`;
   const key = request.headers.get("idempotency-key");
   if (key) headers["Idempotency-Key"] = key;
-  let body = safe.has(request.method) ? undefined : await request.text();
-  if (body && Buffer.byteLength(body) > 65536) return NextResponse.json({ success: false, error: { code: "PAYLOAD_TOO_LARGE", message: "Request is too large." } }, { status: 413 });
+  let body: string | Uint8Array | undefined = safe.has(request.method) ? undefined : multipart ? new Uint8Array(await request.arrayBuffer()) : await request.text();
+  if (body && Buffer.byteLength(body) > 7 * 1024 * 1024) return NextResponse.json({ success: false, error: { code: "PAYLOAD_TOO_LARGE", message: "Request is too large." } }, { status: 413 });
   if (route === "auth/refresh" || route === "auth/logout") body = JSON.stringify({ refreshToken: jar.get("am_refresh")?.value ?? "" });
   try {
     const send = (token?: string) => {
       const outgoing = { ...headers };
       if (token) outgoing.Authorization = `Bearer ${token}`;
       else delete outgoing.Authorization;
-      return fetch(`${base}/api/v1/${route}${request.nextUrl.search}`, { method: request.method, headers: outgoing, body, cache: "no-store", signal: AbortSignal.timeout(12000) });
+      return fetch(`${base}/api/v1/${route}${request.nextUrl.search}`, { method: request.method, headers: outgoing, body: body as BodyInit | undefined, cache: "no-store", signal: AbortSignal.timeout(12000) });
     };
     let upstream = await send(access);
     let data = await upstream.json();

@@ -20,3 +20,13 @@ services:
         sync: false
       - key: Jwt__Audience
         sync: false
+      - key: SupabaseStorage__Url
+        value: https://fenvxhtfqxsypbujduvw.supabase.co
+      - key: SupabaseStorage__Bucket
+        value: Images
+      - key: SupabaseStorage__ServiceRoleKey
+        sync: false
+      - key: Resend__ApiKey
+        sync: false
+      - key: Resend__From
+        sync: false
