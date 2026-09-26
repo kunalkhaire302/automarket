@@ -7,5 +7,5 @@ WORKDIR /app
 RUN adduser -D app
 COPY --from=build --chown=app:app /out .
 USER app
-EXPOSE 5100
-ENTRYPOINT ["dotnet", "Api.dll"]
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "exec dotnet Api.dll --urls http://0.0.0.0:${PORT:-8080}"]
