@@ -5,6 +5,7 @@
 @media(max-width:760px){.site-header{height:74px;gap:12px}.wordmark{font-size:21px}.account-link span,.account-link>svg:last-child{display:none}.menu-toggle{display:block;border:0;background:none;margin-left:auto;padding:5px}.site-header nav{display:none;position:absolute;top:73px;left:0;right:0;background:var(--paper);z-index:20;padding:25px 5%;border-bottom:1px solid var(--line)}.site-header nav.open{display:flex;flex-direction:column}.hero{grid-template-columns:1fr;padding-top:35px;gap:30px}.hero-copy{padding:0}.hero-art{min-height:310px;border-radius:80px 12px 12px 12px}.hero-copy>p{font-size:14px}.hero h1{font-size:48px;letter-spacing:-2px}.hero-search{max-width:none}.road-car{top:210px;left:47%}.art-label{bottom:20px}.promise-strip{flex-direction:column;gap:16px;padding:22px 0}.section{padding-top:45px;padding-bottom:45px}.section-heading{align-items:start}.section-heading .text-link{white-space:nowrap;font-size:11px;margin-top:20px}.section-heading h2{font-size:28px}.car-grid{grid-template-columns:1fr}.sell-banner{padding:30px;display:block}.sell-banner h2{font-size:32px}.sell-art{display:none}.how{grid-template-columns:1fr;gap:30px}.how ol{margin:0}.faq h2{font-size:28px}footer{grid-template-columns:1fr}.footer-links{justify-content:flex-start;flex-wrap:wrap}.browse-layout{grid-template-columns:1fr}.filters{display:none}.filters.open{display:block}.filter-toggle{display:inline-flex}.browse-layout .car-grid{grid-template-columns:1fr}.search-row{flex-wrap:wrap}.search-row input{width:65%}.search-row select{max-width:100%;flex:1}.suggestions{right:0;top:53px}.page-heading h1{font-size:36px}.detail-layout{grid-template-columns:1fr}.details-specs{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.auth-wrap{margin:35px 5%;max-width:none;padding:26px}.panel{padding:21px}.record{flex-direction:column;gap:10px}.skeleton-grid{grid-template-columns:1fr}.skeleton-grid span:not(:first-child){display:none}.container{padding-bottom:40px}.desktop{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}}
 .car-visual img{width:100%;height:100%;object-fit:cover}.detail-image{overflow:hidden}.demo-gallery{display:grid;grid-template-columns:repeat(3,1fr);width:100%;min-height:330px}.demo-gallery img{width:100%;height:165px;object-fit:cover;border:1px solid #fff}
+.password-control{position:relative}.password-control input{padding-right:74px}.password-control button{position:absolute;right:5px;top:0;bottom:0;min-width:60px;border:0;background:transparent;color:var(--ink);font-size:13px}.browse-filter-button{margin-bottom:18px}.filters>.filter-toggle{margin-bottom:16px}.card-actions button{min-height:44px}.chips button{min-height:36px}.car-card:focus-within{border-color:var(--green)}button:disabled{cursor:not-allowed}
 
 /* Tablet layout: collapse navigation and dense desktop grids before they become cramped. */
 @media(max-width:960px){
@@ -33,6 +34,9 @@
 
 /* Small phones: preserve readable spacing and full-size touch targets. */
 @media(max-width:520px){
+  .car-grid,.browse-layout .car-grid{grid-template-columns:minmax(0,1fr)}
+  .field input,.field select,.field textarea,.search-row input,.search-row select,.hero-search input{font-size:16px}
+  .account-link{min-width:44px;min-height:44px;justify-content:center}
   body{overflow-x:hidden}
   .site-header,.container,.section,.hero{padding-left:18px;padding-right:18px}
   .wordmark{font-size:19px}
