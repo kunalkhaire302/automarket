@@ -1,0 +1,38 @@
+services:
+  frontend:
+    build: ../frontend
+    environment:
+      API_BASE_URL: http://backend:5100
+      APP_ORIGIN: http://localhost:3000
+    ports: ["3000:3000"]
+    depends_on:
+      backend: { condition: service_healthy }
+  backend:
+    build: ../backend
+    environment:
+      ASPNETCORE_URLS: http://+:5100
+      ConnectionStrings__SupabasePostgres: ${SUPABASE_POSTGRES_CONNECTION}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: AutoMarket
+      Jwt__Audience: AutoMarket.Web
+      AiService__BaseUrl: http://ai:8000/
+      AiService__ApiKey: ${AI_API_KEY}
+    ports: ["5100:5100"]
+    depends_on:
+      ai: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5100/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  ai:
+    build: ../ai-service
+    environment:
+      AI_API_KEY: ${AI_API_KEY}
+      MODEL_REGISTRY_PATH: /app/models
+    ports: ["8000:8000"]
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
